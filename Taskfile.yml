@@ -1,0 +1,31 @@
+# https://taskfile.dev
+
+version: '2'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  build:
+    cmds:
+      - echo "{{.GREETING}}"
+      - task: proto
+      - task: build:binary
+
+  proto:
+    cmds:
+      - protoc -I games --go_out=plugins=grpc:games games/games.proto
+
+  build:binary:
+    cmds:
+      - |
+        CGO_ENABLED=0 go build \
+          -mod vendor \
+          -o ./bin/server \
+          -ldflags "-X main.version=$(git describe --tags --always)" \
+          ./server
