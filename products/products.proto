@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.products";
+option java_outer_classname = "ProductsProto";
+
+package products;
+
+service Greeter {
+  // Sends a greeting
+  rpc GetProducts (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containging the user's name.
+message HelloRequest {
+  int32 productId = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  int32 id = 1;
+  string message = 2;
+}
