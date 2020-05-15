@@ -39,5 +39,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not get game: %v", err)
 	}
-	log.Printf("Game ID: %d, Message: %s", response.GetId(), response.GetMessage())
+	log.Printf("Game ID: %d, Name: %s, Company: %s, Type: %s, Release Year: %d", response.GetId(), response.GetName(), response.GetCompany(), response.GetType(), response.GetReleaseYear())
 }

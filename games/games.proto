@@ -16,5 +16,8 @@ message GameRequest {
 
 message GameReply {
   int32 id = 1;
-  string message = 2;
+  string Name = 2;
+  string Company = 3;
+  string Type = 4;
+  int32 ReleaseYear = 5;
 }
