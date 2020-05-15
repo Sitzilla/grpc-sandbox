@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	protobuff "examples/games/games"
 	"google.golang.org/grpc"
-	pb "examples/products/products"
 )
 
 const (
@@ -23,21 +23,21 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
+	c := protobuff.NewGameServiceClient(conn)
 
 	// Contact the server and print out its response.
-	productId := defaultId
+	gameId := defaultId
 	if len(os.Args) > 1 {
-		productId, err = strconv.Atoi(os.Args[1])
+		gameId, err = strconv.Atoi(os.Args[1])
 		if err != nil {
 			log.Fatalf("No ID passed in: %v", err)
 		}
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	response, err := c.GetProducts(ctx, &pb.HelloRequest{ProductId: int32(productId)})
+	response, err := c.GetGames(ctx, &protobuff.GameRequest{Id: int32(gameId)})
 	if err != nil {
-		log.Fatalf("Could not get product: %v", err)
+		log.Fatalf("Could not get game: %v", err)
 	}
-	log.Printf("Product ID: %d, Message: %s", response.GetId(), response.GetMessage())
+	log.Printf("Game ID: %d, Message: %s", response.GetId(), response.GetMessage())
 }

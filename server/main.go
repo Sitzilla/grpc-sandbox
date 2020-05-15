@@ -1,5 +1,5 @@
 
-//go:generate protoc -I ../products --go_out=plugins=grpc:../products ../products/products.proto
+//go:generate protoc -I games --go_out=plugins=grpc:games games/games.proto
 
 // Package main implements a server for Greeter service.
 package main
@@ -9,7 +9,7 @@ import (
 	"log"
 	"net"
 
-	pb "examples/products/products"
+	protobuff "examples/games/games"
 	"google.golang.org/grpc"
 )
 
@@ -18,12 +18,12 @@ const (
 )
 
 type server struct {
-	pb.UnimplementedGreeterServer
+	protobuff.UnimplementedGameServiceServer
 }
 
-func (s *server) GetProducts(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	log.Printf("Request received for id: %d" , in.GetProductId())
-	return &pb.HelloReply{Id: 42, Message: "Zelda: BOTW"}, nil
+func (s *server) GetGames(ctx context.Context, in *protobuff.GameRequest) (*protobuff.GameReply, error) {
+	log.Printf("Request received for id: %d" , in.GetId())
+	return &protobuff.GameReply{Id: 42, Message: "Zelda: BOTW"}, nil
 }
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 	}
 	s := grpc.NewServer()
 	log.Printf("Server started on port: %s", port)
-	pb.RegisterGreeterServer(s, &server{})
+	protobuff.RegisterGameServiceServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

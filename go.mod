@@ -1,4 +1,4 @@
-module examples/products
+module examples/games
 
 go 1.13
 
